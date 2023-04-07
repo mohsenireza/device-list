@@ -1,32 +1,15 @@
+import { createRoot } from 'react-dom/client';
+
 import { DynamicList } from "./DynamicList";
-import { RDM_Device } from "./RDM_Device";
-import { Server } from "./Server";
+import { DeviceList } from './component/deviceList/DeviceList';
 
 window.onload = () => {
     main()
 }
 
-var g_Server: Server;
 var g_DeviceList: DynamicList;
 
 function main() {
-    g_Server = new Server({
-        device_added_callback: (device_data: RDM_Device) => {
-            // Called when a new RDM Device has been discovered.
-            // Create an RDM Device entry in the RDM Device List with the values in device_data.
-            console.log("Add Device", device_data)
-        },
-        device_updated_callback: (device_data: RDM_Device) => {
-            // Called when an RDM Device parameter change is detected.
-            // Update existing associated RDM Device entry in the RDM Device List with the values in device_data.
-            console.log("Update Device", device_data)
-        }
-    })
-
-    // Use Server.GetDeviceCount() to get number of devices in backend device list
-    console.log("Current Device Count: ", g_Server.GetDeviceCount())
-    // Use Server.GetDeviceByIndex() to get backend device by index (index 0 - first added device, index 2 - third added device, ...)
-    console.log("First Device: ", g_Server.GetDeviceByIndex(0))
 
     document.getElementById("filter_none").onclick = () => {
         console.log("Set DynamicList filter to show all devices")
@@ -53,4 +36,9 @@ function main() {
     }
 
     g_DeviceList = new DynamicList(document.getElementById("rdm_device_list"))
+
+    // Render React component
+    const domNode = document.getElementById('list_frame');
+    const root = createRoot(domNode);
+    root.render(<DeviceList />);
 }

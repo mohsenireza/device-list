@@ -13,6 +13,12 @@
     --button_ol: rgb(100, 100, 100);
     --button_light_bg: rgb(120, 120, 120);
     --accent2_ol: rgb(0, 128, 255);
+    --odd_row: rgb(28, 28, 28);
+    --even_row: rgb(37, 37, 37);
+    --green: #090;
+    --red: #F00;
+    --input_background: rgb(32, 32, 32);
+    --text_dark: rgb(186, 187, 187);
     font-size: 12pt;
     white-space: nowrap;
 }
@@ -147,7 +153,15 @@ body {
 
 .na-table tr {
     width: 100%;
-    border-bottom: solid 2px var(--dark_bg);
+    height: 1.7rem;
+}
+
+.na-table tr:nth-child(odd) {
+    background-color: var(--odd_row);
+}
+
+.na-table tr:nth-child(even) {
+    background-color: var(--even_row);
 }
 
 .na-table-header {
@@ -167,6 +181,8 @@ body {
 .na-table td {
     padding: 0;
     margin: 0;
+    text-align: center;
+    color: var(--text_dark);
 }
 
 .na-table-rightborder th {
@@ -185,8 +201,19 @@ body {
     border-right: none;
 }
 
-.na-table tr {
-    background-color: var(--lighter_bg);
+.na-table .rdm-list-status-cell::before {
+    content: '';
+    display: block;
+    height: 1.7rem;
+    width: 0.3rem;
+}
+
+.na-table .rdm-list-status-cell.-online::before {
+    background-color: var(--green);
+}
+
+.na-table .rdm-list-status-cell.-offline::before {
+    background-color: var(--red);
 }
 
 .na-button {
@@ -204,19 +231,19 @@ body {
 }
 
 .na-button-red {
-    border-bottom: 3px solid #F00;
+    border-bottom: 3px solid var(--red);
 }
 
 .na-button-red:hover {
-    background-color: #F00;
+    background-color: var(--red);
 }
 
 .na-button-green {
-    border-bottom: 3px solid #090;
+    border-bottom: 3px solid var(--green);
 }
 
 .na-button-green:hover {
-    background-color: #090;
+    background-color: var(--green);
 }
 
 .na-button:disabled {
