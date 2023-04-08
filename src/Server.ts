@@ -238,6 +238,16 @@ export class Server {
         return this.m_Devices[index]
     }
 
+    /**
+     * Update device field and call the update callback
+     */
+    public updateDeviceField(uid: string, field: string, value: any) {
+        const device = this.m_Devices.find(device => device.uid === uid);
+        if (!device) return;
+        (device as {[key: string]: any})[field] = value;
+        this._param.device_updated_callback(device);
+    }
+
     private AddDevices(count: number) {
         for (var i = 0; i < count; i++) {
             const na = Math.random() > 0.5

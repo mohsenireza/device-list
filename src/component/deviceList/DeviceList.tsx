@@ -1,4 +1,9 @@
-import { ReactElement, useEffect, useState } from 'react';
+import {
+    ReactElement,
+    useEffect,
+    useState,
+    useRef
+} from 'react';
 
 import { RDM_Device } from "../../RDM_Device";
 import { Server } from "../../Server";
@@ -7,9 +12,10 @@ import { Select } from '../select/Select';
 
 export const DeviceList = (): ReactElement => {
     const [devices, setDevices] = useState([]);
+    const server = useRef<Server>(null);
 
     useEffect(() => {
-        const server = new Server({
+        server.current = new Server({
             device_added_callback: (device_data: RDM_Device) => {
                 // Called when a new RDM Device has been discovered.
                 // Create an RDM Device entry in the RDM Device List with the values in device_data.
@@ -20,9 +26,27 @@ export const DeviceList = (): ReactElement => {
                 // Called when an RDM Device parameter change is detected.
                 // Update existing associated RDM Device entry in the RDM Device List with the values in device_data.
                 console.log("Update Device", device_data)
+                setDevices((devices) => {
+                    return devices.map((device) => {
+                        if (device.uid === device_data.uid) return device_data;
+                        return device;
+                    });
+                });
             }
         })
     }, [])
+
+    /**
+     * Update device field and log the result to the console
+     */
+    const updateDeviceField = (uid: string, field: string, value: any) => {
+        const device = devices.find(device => device.uid === uid);
+
+        if (device[field] !== value) {
+            server.current.updateDeviceField(uid, field, value);
+            console.log(`uid: "${uid}" - ${field}: "${value}"`);
+        }
+    }
 
     return (
         <>
@@ -49,17 +73,22 @@ export const DeviceList = (): ReactElement => {
                                 />
                                 <td style={{ minWidth: '6rem', maxWidth: '6rem' }}>{device.uid}</td>
                                 <td style={{ minWidth: '12rem' }}>
-                                    <Input defaultValue={device.label} isColorDark />
+                                    <Input
+                                      defaultValue={device.label}
+                                      isColorDark
+                                      onBlur={(value) => updateDeviceField(device.uid, 'label', value)}
+                                    />
                                 </td>
                                 <td style={{ minWidth: '8rem' }}>{device.manufacturer}</td>
                                 <td style={{ minWidth: '12rem' }}>{device.model}</td>
                                 <td style={{ minWidth: '12rem' }}>
                                     <Select
-                                      defaultValue={String(device.mode_index)}
+                                      defaultValue={device.mode_index}
                                       options={[...new Array(device.mode_count)].map((_, index) => ({
-                                        value: String(index + 1),
-                                        label: `Mode #${index + 1}`
+                                        value: index,
+                                        label: `Mode #${index}`
                                       }))}
+                                      onChange={(option) => updateDeviceField(device.uid, 'mode_index', option.value)}
                                     />
                                 </td>
                                 <td style={{ minWidth: '6rem' }}>
@@ -73,6 +102,7 @@ export const DeviceList = (): ReactElement => {
                                         if (Number(value) < 1 || Number(value) > 512 || String(value).match(/[^\d]/)) return prevValue;
                                         return value;
                                       }}
+                                      onBlur={(value) => updateDeviceField(device.uid, 'address', value)}
                                     />
                                 </td>
                             </tr>

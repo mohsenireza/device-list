@@ -1,7 +1,13 @@
-import { useState, ChangeEventHandler } from 'react';
+import {
+    useState,
+    useEffect,
+    ChangeEventHandler,
+    FocusEventHandler
+} from 'react';
+
 import './Input.css';
 
-type InputValue = string | number;
+export type InputValue = string | number;
 
 type InputProps = {
     type?: string;
@@ -9,6 +15,7 @@ type InputProps = {
     isColorDark?: boolean;
     isTiny?: boolean;
     spyValue?: (value?: InputValue, prevValue?: InputValue) => InputValue;
+    onBlur?: (value: InputValue) => void
 }
 
 export const Input = ({
@@ -16,11 +23,17 @@ export const Input = ({
     defaultValue = '',
     isColorDark,
     isTiny,
-    spyValue = (value) => value
+    spyValue = (value) => value,
+    onBlur = () => {}
 }: InputProps) => {
     const [value, setValue] = useState<InputValue>(defaultValue);
 
-    const handleOnChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    // Update the UI when a device gets updated
+    useEffect(() => {
+        setValue(defaultValue);
+    }, [defaultValue])
+
+    const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
         const newValue = spyValue(e.target.value, value);
 
         if(newValue === value) return;
@@ -28,12 +41,17 @@ export const Input = ({
         setValue(newValue);
     }
 
+    const handleBlur: FocusEventHandler<HTMLInputElement> = () => {
+        onBlur(value);
+    }
+
     return (
         <input
           type={type}
           className={`input ${isColorDark ? '-isColorDark' : ''} ${isTiny ? '-isTiny' : ''}`}
           value={value}
-          onChange={handleOnChange}
+          onChange={handleChange}
+          onBlur={handleBlur}
         />
     )
 }

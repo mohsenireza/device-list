@@ -1,24 +1,32 @@
-import { ReactElement, useState } from 'react';
+import { ReactElement, useState, useEffect } from 'react';
 import ReactSelect, { StylesConfig } from 'react-select';
 
-type OptionType = {
-    value: string;
+export type OptionType = {
+    value: any;
     label: string;
 };
 
 type SelectProps = {
-    defaultValue?: string;
-    options?: OptionType[]
+    defaultValue?: any;
+    options?: OptionType[];
+    onChange?: (option: OptionType) => void;
 };
 
 export const Select = ({
     defaultValue = '',
-    options = []
+    options = [],
+    onChange = () => {}
 }: SelectProps): ReactElement => {
     const [value, setValue] = useState(defaultValue);
 
+    // Update the UI when a device gets updated
+    useEffect(() => {
+        setValue(defaultValue);
+    }, [defaultValue])
+
     const handleChange = (option: OptionType) => {
         setValue(option.value);
+        onChange(option);
     };
 
     const styles: StylesConfig = {
