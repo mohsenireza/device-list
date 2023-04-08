@@ -3,6 +3,7 @@ import { ReactElement, useEffect, useState } from 'react';
 import { RDM_Device } from "../../RDM_Device";
 import { Server } from "../../Server";
 import { Input } from '../input/Input';
+import { Select } from '../select/Select';
 
 export const DeviceList = (): ReactElement => {
     const [devices, setDevices] = useState([]);
@@ -52,7 +53,15 @@ export const DeviceList = (): ReactElement => {
                                 </td>
                                 <td style={{ minWidth: '8rem' }}>{device.manufacturer}</td>
                                 <td style={{ minWidth: '12rem' }}>{device.model}</td>
-                                <td style={{ minWidth: '12rem' }}>MODE</td>
+                                <td style={{ minWidth: '12rem' }}>
+                                    <Select
+                                      defaultValue={String(device.mode_index)}
+                                      options={[...new Array(device.mode_count)].map((_, index) => ({
+                                        value: String(index + 1),
+                                        label: `Mode #${index + 1}`
+                                      }))}
+                                    />
+                                </td>
                                 <td style={{ minWidth: '6rem' }}>
                                     <Input
                                       type='number'

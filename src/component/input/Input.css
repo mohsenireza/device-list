@@ -4,7 +4,7 @@
     border: 1px solid var(--button_light_bg);
     height: 1.35rem;
     width: 100%;
-    box-shadow: 2px 0px 2px 0px var(--dark_bg);
+    box-shadow: 2px 0px 3px 0px var(--black);
 }
 
 .input.-isColorDark {

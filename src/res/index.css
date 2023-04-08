@@ -19,6 +19,8 @@
     --red: #F00;
     --input_background: rgb(32, 32, 32);
     --text_dark: rgb(186, 187, 187);
+    --white: #fff;
+    --black: #000;
     font-size: 12pt;
     white-space: nowrap;
 }
