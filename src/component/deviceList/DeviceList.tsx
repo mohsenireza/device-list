@@ -12,20 +12,21 @@ import { Select } from '../select/Select';
 
 export const DeviceList = (): ReactElement => {
     const [devices, setDevices] = useState([]);
+    const [filterBy, setFilterBy] = useState<'none' | 'Company NA' | 'TMB'>('none');
+    const [sortBy, setSortBy] = useState<'none' | 'uid_integer' | 'address' | 'manufacturer'>('none');
     const server = useRef<Server>(null);
 
     useEffect(() => {
+        // Init server
         server.current = new Server({
             device_added_callback: (device_data: RDM_Device) => {
                 // Called when a new RDM Device has been discovered.
                 // Create an RDM Device entry in the RDM Device List with the values in device_data.
-                console.log("Add Device", device_data);
                 setDevices((devices) => [...devices, device_data])
             },
             device_updated_callback: (device_data: RDM_Device) => {
                 // Called when an RDM Device parameter change is detected.
                 // Update existing associated RDM Device entry in the RDM Device List with the values in device_data.
-                console.log("Update Device", device_data)
                 setDevices((devices) => {
                     return devices.map((device) => {
                         if (device.uid === device_data.uid) return device_data;
@@ -33,12 +34,36 @@ export const DeviceList = (): ReactElement => {
                     });
                 });
             }
-        })
+        });
+
+        // Add filter event handlers
+        document.getElementById("filter_none").onclick = () => {
+            setFilterBy('none');
+        }
+
+        document.getElementById("filter_na").onclick = () => {
+            setFilterBy('Company NA');
+        }
+
+        document.getElementById("filter_tmb").onclick = () => {
+            setFilterBy('TMB');
+        }
+
+        // Add sort event listeners
+        document.getElementById("sort_uid").onclick = () => {
+            setSortBy('uid_integer');
+        }
+
+        document.getElementById("sort_address").onclick = () => {
+            setSortBy('address');
+        }
+
+        document.getElementById("sort_manufacturer").onclick = () => {
+            setSortBy('manufacturer');
+        }
     }, [])
 
-    /**
-     * Update device field and log the result to the console
-     */
+    // Update device field and log the result to the console
     const updateDeviceField = (uid: string, field: string, value: any) => {
         const device = devices.find(device => device.uid === uid);
 
@@ -48,9 +73,37 @@ export const DeviceList = (): ReactElement => {
         }
     }
 
+    // Apply filter and sort to the devices
+    const filteredDevices = devices
+        .filter((device) => {
+            if (filterBy === 'none') return true;
+            return device.manufacturer === filterBy;
+        })
+        .sort((a, b) => {
+            if (sortBy === 'none') {
+                return 0;
+            }
+
+            if (a[sortBy] === b[sortBy]) {
+                return a.uid_integer > b.uid_integer ? 1 : -1;
+            }
+
+            if (sortBy === 'uid_integer') {
+                return a.uid_integer > b.uid_integer ? 1 : -1;
+            }
+
+            if (sortBy === 'address') {
+                return a.address - b.address;
+            }
+
+            if (sortBy === 'manufacturer') {
+                return a.manufacturer.localeCompare(b.manufacturer);
+            }
+        });
+
     return (
         <>
-            <span>RDM Device List (${'FILTER_VISIBLE_COUNT'}/${'DEVICE_COUNT'} | ${'FILTER_MODE'} | ${'SORT_MODE'})</span>
+            <span>RDM Device List ({filteredDevices.length}/{devices.length} | {filterBy} | {sortBy})</span>
             <div id="rdm_device_list">
                 <table className="na-table" style={{ width: '100%' }}>
                     <thead>
@@ -65,7 +118,7 @@ export const DeviceList = (): ReactElement => {
                         </tr>
                     </thead>
                     <tbody>
-                        {devices.map(device => (
+                        {filteredDevices.map(device => (
                             <tr key={device.uid}>
                                 <td
                                     style={{ minWidth: '1rem', maxWidth: '1rem' }}
@@ -102,7 +155,7 @@ export const DeviceList = (): ReactElement => {
                                         if (Number(value) < 1 || Number(value) > 512 || String(value).match(/[^\d]/)) return prevValue;
                                         return value;
                                       }}
-                                      onBlur={(value) => updateDeviceField(device.uid, 'address', value)}
+                                      onBlur={(value) => updateDeviceField(device.uid, 'address', Number(value))}
                                     />
                                 </td>
                             </tr>
