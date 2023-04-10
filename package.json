@@ -11,6 +11,7 @@
   },
   "keywords": [],
   "devDependencies": {
+    "@types/react-window": "^1.8.5",
     "copy-webpack-plugin": "^11.0.0",
     "css-loader": "^6.7.3",
     "html-webpack-plugin": "^5.5.0",
@@ -25,6 +26,8 @@
     "@types/react-dom": "^18.0.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-select": "^5.7.2"
+    "react-select": "^5.7.2",
+    "react-virtualized-auto-sizer": "^1.0.12",
+    "react-window": "^1.8.8"
   }
 }

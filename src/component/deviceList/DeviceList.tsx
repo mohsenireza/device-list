@@ -1,9 +1,16 @@
 import {
     ReactElement,
+    useCallback,
     useEffect,
     useState,
-    useRef
+    useRef,
+    FC
 } from 'react';
+import {
+    FixedSizeList as List,
+    ListChildComponentProps
+} from 'react-window';
+import AutoSizer from "react-virtualized-auto-sizer";
 
 import { RDM_Device } from "../../RDM_Device";
 import { Server } from "../../Server";
@@ -15,6 +22,12 @@ export const DeviceList = (): ReactElement => {
     const [filterBy, setFilterBy] = useState<'none' | 'Company NA' | 'TMB'>('none');
     const [sortBy, setSortBy] = useState<'none' | 'uid_integer' | 'address' | 'manufacturer'>('none');
     const server = useRef<Server>(null);
+    // Disable horizontal scroll of react-window outer element
+    const outerRef = useCallback((node: HTMLElement) => {
+        if (node !== null) {
+          node.style.overflowX = 'hidden';
+        }
+    }, []);
 
     useEffect(() => {
         // Init server
@@ -101,15 +114,62 @@ export const DeviceList = (): ReactElement => {
             }
         });
 
+    const Row: FC<ListChildComponentProps> = ({ index, style }) => {
+        const device = filteredDevices[index];
+
+        return (
+            <tr style={style}>
+                <td
+                    style={{ minWidth: '1rem', maxWidth: '1rem' }}
+                    className={`rdm-list-status-cell ${device.is_online ? '-online' : '-offline'}`}
+                />
+                <td style={{ minWidth: '8rem' }}>{device.uid}</td>
+                <td style={{ minWidth: '12rem' }}>
+                    <Input
+                      defaultValue={device.label}
+                      isColorDark
+                      onBlur={(value) => updateDeviceField(device.uid, 'label', value)}
+                    />
+                </td>
+                <td style={{ minWidth: '8rem' }}>{device.manufacturer}</td>
+                <td style={{ minWidth: '12rem' }}>{device.model}</td>
+                <td style={{ minWidth: '12rem' }}>
+                    <Select
+                      defaultValue={device.mode_index}
+                      options={[...new Array(device.mode_count)].map((_, index) => ({
+                        value: index,
+                        label: `Mode #${index}`
+                      }))}
+                      onChange={(option) => updateDeviceField(device.uid, 'mode_index', option.value)}
+                    />
+                </td>
+                <td style={{ minWidth: '6rem' }}>
+                    <Input
+                      type='number'
+                      defaultValue={device.address}
+                      isTiny
+                      spyValue={(value, prevValue) => {
+                        // Only accepts integer numbers from 1 to 512
+                        if (value === '') return 1;
+                        if (Number(value) < 1 || Number(value) > 512 || String(value).match(/[^\d]/)) return prevValue;
+                        return value;
+                      }}
+                      onBlur={(value) => updateDeviceField(device.uid, 'address', Number(value))}
+                    />
+                </td>
+            </tr>
+        );
+    }
+
     return (
         <>
             <span>RDM Device List ({filteredDevices.length}/{devices.length} | {filterBy} | {sortBy})</span>
             <div id="rdm_device_list">
-                <table className="na-table" style={{ width: '100%' }}>
+                <table className="na-table" style={{ width: '100%', height: '100%' }}>
                     <thead>
                         <tr className="rdm-list-header na-table-header">
                             <th style={{ minWidth: '1rem', maxWidth: '1rem' }}></th>
-                            <th style={{ minWidth: '6rem', maxWidth: '6rem' }}>UID</th>
+                            <th style={{ minWidth: '8rem' }}>UID</th>
                             <th style={{ minWidth: '12rem' }}>LABEL</th>
                             <th style={{ minWidth: '8rem' }}>MANUFACTURER</th>
                             <th style={{ minWidth: '12rem' }}>MODEL</th>
@@ -118,48 +178,19 @@ export const DeviceList = (): ReactElement => {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredDevices.map(device => (
-                            <tr key={device.uid}>
-                                <td
-                                    style={{ minWidth: '1rem', maxWidth: '1rem' }}
-                                    className={`rdm-list-status-cell ${device.is_online ? '-online' : '-offline'}`}
-                                />
-                                <td style={{ minWidth: '6rem', maxWidth: '6rem' }}>{device.uid}</td>
-                                <td style={{ minWidth: '12rem' }}>
-                                    <Input
-                                      defaultValue={device.label}
-                                      isColorDark
-                                      onBlur={(value) => updateDeviceField(device.uid, 'label', value)}
-                                    />
-                                </td>
-                                <td style={{ minWidth: '8rem' }}>{device.manufacturer}</td>
-                                <td style={{ minWidth: '12rem' }}>{device.model}</td>
-                                <td style={{ minWidth: '12rem' }}>
-                                    <Select
-                                      defaultValue={device.mode_index}
-                                      options={[...new Array(device.mode_count)].map((_, index) => ({
-                                        value: index,
-                                        label: `Mode #${index}`
-                                      }))}
-                                      onChange={(option) => updateDeviceField(device.uid, 'mode_index', option.value)}
-                                    />
-                                </td>
-                                <td style={{ minWidth: '6rem' }}>
-                                    <Input
-                                      type='number'
-                                      defaultValue={device.address}
-                                      isTiny
-                                      spyValue={(value, prevValue) => {
-                                        // Only accepts integer numbers from 1 to 512
-                                        if (value === '') return 1;
-                                        if (Number(value) < 1 || Number(value) > 512 || String(value).match(/[^\d]/)) return prevValue;
-                                        return value;
-                                      }}
-                                      onBlur={(value) => updateDeviceField(device.uid, 'address', Number(value))}
-                                    />
-                                </td>
-                            </tr>
-                        ))}
+                        <AutoSizer>
+                            {({ height, width }) => (
+                                <List
+                                  height={height}
+                                  itemCount={filteredDevices.length}
+                                  itemSize={27}
+                                  width={width}
+                                  outerRef={outerRef}
+                                >
+                                    {Row}
+                                </List>
+                            )}
+                        </AutoSizer>
                     </tbody>
                 </table>
             </div>

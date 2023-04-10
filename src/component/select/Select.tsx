@@ -32,7 +32,8 @@ export const Select = ({
     const styles: StylesConfig = {
         container: (baseStyles) => ({
             ...baseStyles,
-            height: '1.35rem'
+            height: '1.35rem',
+            width: '100%'
         }),
         control: (baseStyles) => ({
             ...baseStyles,
@@ -95,6 +96,9 @@ export const Select = ({
           options={options}
           styles={styles}
           isSearchable={false}
+          menuShouldScrollIntoView={false}
+          menuPlacement="auto"
+          maxMenuHeight={200}
         />
     )
 }
