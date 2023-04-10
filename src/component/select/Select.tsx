@@ -32,7 +32,7 @@ export const Select = ({
     const styles: StylesConfig = {
         container: (baseStyles) => ({
             ...baseStyles,
-            height: '1.35rem',
+            height: '1.65rem',
             width: '100%'
         }),
         control: (baseStyles) => ({

@@ -79,33 +79,59 @@ body {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
     box-sizing: border-box;
-    overflow-x: hidden;
+    overflow-x: auto;
     overflow-y: hidden;
     height: 50%;
     padding-bottom: 0.5rem;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+#test_buttons_a::-webkit-scrollbar {
+    display: none;
 }
 
 #test_buttons_b {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
     box-sizing: border-box;
-    overflow-x: hidden;
+    overflow-x: auto;
     overflow-y: hidden;
     height: 50%;
     top: 50%;
     padding-top: 0.5rem;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+#test_buttons_b::-webkit-scrollbar {
+    display: none;
 }
 
 #test_buttons_a button {
     margin: 0.25rem;
 }
 
+#test_buttons_a > button:first-child {
+    margin-inline-start: auto;
+}
+
+#test_buttons_a > button:last-child {
+    margin-inline-end: auto;
+}
+
 #test_buttons_b button {
     margin: 0.25rem;
+}
+
+#test_buttons_b > button:first-child {
+    margin-inline-start: auto;
+}
+
+#test_buttons_b > button:last-child {
+    margin-inline-end: auto;
 }
 
 #list_frame {
@@ -121,15 +147,20 @@ body {
     border: solid 2px var(--frame_ol);
 }
 
-.frame>span {
+.frame > span {
     position: absolute;
     width: 100%;
     height: 1.5rem;
     background: var(--frame_ol);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+    text-align: center;
+    overflow-y: hidden;
+    overflow-x: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.frame > span::-webkit-scrollbar {
+    display: none;
 }
 
 .frame>div {
