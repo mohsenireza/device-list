@@ -3,19 +3,21 @@ import {
     useCallback,
     useEffect,
     useState,
-    useRef,
-    FC
+    useRef
 } from 'react';
-import {
-    FixedSizeList as List,
-    ListChildComponentProps
-} from 'react-window';
+import { FixedSizeList as List } from 'react-window';
+import memoize from 'memoize-one';
 import AutoSizer from "react-virtualized-auto-sizer";
 
 import { RDM_Device } from "../../RDM_Device";
 import { Server } from "../../Server";
-import { Input } from '../input/Input';
-import { Select } from '../select/Select';
+import { DeviceRow } from '../deviceRow/DeviceRow';
+
+// Create a memoized object for react-window's List component
+const createItemData = memoize((filteredDevices, updateDeviceField) => ({
+    filteredDevices,
+    updateDeviceField,
+}));
 
 export const DeviceList = (): ReactElement => {
     const [devices, setDevices] = useState([]);
@@ -114,52 +116,7 @@ export const DeviceList = (): ReactElement => {
             }
         });
 
-    const Row: FC<ListChildComponentProps> = ({ index, style }) => {
-        const device = filteredDevices[index];
-
-        return (
-            <tr style={style}>
-                <td
-                    style={{ minWidth: '1rem', maxWidth: '1rem' }}
-                    className={`rdm-list-status-cell ${device.is_online ? '-online' : '-offline'}`}
-                />
-                <td style={{ minWidth: '8rem' }}>{device.uid}</td>
-                <td style={{ minWidth: '12rem' }}>
-                    <Input
-                      defaultValue={device.label}
-                      isColorDark
-                      onBlur={(value) => updateDeviceField(device.uid, 'label', value)}
-                    />
-                </td>
-                <td style={{ minWidth: '8rem' }}>{device.manufacturer}</td>
-                <td style={{ minWidth: '12rem' }}>{device.model}</td>
-                <td style={{ minWidth: '12rem' }}>
-                    <Select
-                      defaultValue={device.mode_index}
-                      options={[...new Array(device.mode_count)].map((_, index) => ({
-                        value: index,
-                        label: `Mode #${index}`
-                      }))}
-                      onChange={(option) => updateDeviceField(device.uid, 'mode_index', option.value)}
-                    />
-                </td>
-                <td style={{ minWidth: '6rem' }}>
-                    <Input
-                      type='number'
-                      defaultValue={device.address}
-                      isTiny
-                      spyValue={(value, prevValue) => {
-                        // Only accepts integer numbers from 1 to 512
-                        if (value === '') return 1;
-                        if (Number(value) < 1 || Number(value) > 512 || String(value).match(/[^\d]/)) return prevValue;
-                        return value;
-                      }}
-                      onBlur={(value) => updateDeviceField(device.uid, 'address', Number(value))}
-                    />
-                </td>
-            </tr>
-        );
-    }
+    const itemData = createItemData(filteredDevices, updateDeviceField);
 
     return (
         <>
@@ -183,11 +140,12 @@ export const DeviceList = (): ReactElement => {
                                 <List
                                   height={height}
                                   itemCount={filteredDevices.length}
+                                  itemData={itemData}
                                   itemSize={27}
                                   width={width}
                                   outerRef={outerRef}
                                 >
-                                    {Row}
+                                    {DeviceRow}
                                 </List>
                             )}
                         </AutoSizer>
