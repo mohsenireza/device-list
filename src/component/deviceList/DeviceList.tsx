@@ -8,10 +8,13 @@ import {
 import { FixedSizeList as List } from 'react-window';
 import memoize from 'memoize-one';
 import AutoSizer from "react-virtualized-auto-sizer";
+import { ToastContainer, toast } from 'react-toastify';
 
 import { RDM_Device } from "../../RDM_Device";
 import { Server } from "../../Server";
 import { DeviceRow } from '../deviceRow/DeviceRow';
+
+import 'react-toastify/dist/ReactToastify.min.css';
 
 // Create a memoized object for react-window's List component
 const createItemData = memoize((filteredDevices, updateDeviceField) => ({
@@ -84,7 +87,10 @@ export const DeviceList = (): ReactElement => {
 
         if (device[field] !== value) {
             server.current.updateDeviceField(uid, field, value);
-            console.log(`uid: "${uid}" - ${field}: "${value}"`);
+            console.log(`uid: ${uid} - ${field}: ${value}`);
+            toast.success(`${field} has been updated to ${value}`, {
+                theme: "dark",
+            });
         }
     }
 
@@ -120,6 +126,7 @@ export const DeviceList = (): ReactElement => {
 
     return (
         <>
+            <ToastContainer />
             <span>RDM Device List ({filteredDevices.length}/{devices.length} | {filterBy} | {sortBy})</span>
             <div id="rdm_device_list">
                 <table className="na-table" style={{ width: '100%', height: '100%' }}>

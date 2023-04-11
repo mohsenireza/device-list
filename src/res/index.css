@@ -294,3 +294,7 @@ body {
     border-color: var(--button_bg);
     color: #888;
 }
+
+.Toastify__toast-body {
+    white-space: pre-line;
+}
