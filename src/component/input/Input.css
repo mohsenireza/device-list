@@ -5,6 +5,12 @@
     height: 1.35rem;
     width: 100%;
     box-shadow: 2px 0px 3px 0px var(--black);
+    transition: 0.2s;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--white);
 }
 
 .input.-isColorDark {
