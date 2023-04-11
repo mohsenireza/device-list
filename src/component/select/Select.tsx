@@ -97,8 +97,6 @@ export const Select = ({
           styles={styles}
           isSearchable={false}
           menuShouldScrollIntoView={false}
-          menuPlacement="auto"
-          maxMenuHeight={200}
         />
     )
 }
