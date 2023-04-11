@@ -9,38 +9,46 @@ import { Select } from '../select/Select';
 
 export const DeviceRow: FC<ListChildComponentProps> = memo(({ data, index, style }) => {
     const { filteredDevices, updateDeviceField } = data;
-    const device = filteredDevices[index];
+    const {
+        is_online,
+        uid,
+        label,
+        manufacturer,
+        model,
+        mode_index,
+        mode_count,
+        address
+    } = filteredDevices[index];
 
     return (
-        <tr style={style}>
-            <td
-                style={{ minWidth: '1rem', maxWidth: '1rem' }}
-                className={`rdm-list-status-cell ${device.is_online ? '-online' : '-offline'}`}
+        <div style={style} className="na-table-row">
+            <span
+                className={`body-cell status-cell ${is_online ? '-online' : '-offline'}`}
             />
-            <td style={{ minWidth: '8rem' }}>{device.uid}</td>
-            <td style={{ minWidth: '12rem' }}>
+            <span className="body-cell uid-cell">{uid}</span>
+            <span className="body-cell label-cell">
                 <Input
-                  defaultValue={device.label}
+                  defaultValue={label}
                   isColorDark
-                  onBlur={(value) => updateDeviceField(device.uid, 'label', value)}
+                  onBlur={(value) => updateDeviceField(uid, 'label', value)}
                 />
-            </td>
-            <td style={{ minWidth: '8rem' }}>{device.manufacturer}</td>
-            <td style={{ minWidth: '12rem' }}>{device.model}</td>
-            <td style={{ minWidth: '12rem' }}>
+            </span>
+            <span className="body-cell manufacturer-cell">{manufacturer}</span>
+            <span className="body-cell model-cell">{model}</span>
+            <span className="body-cell mode-cell">
                 <Select
-                  defaultValue={device.mode_index}
-                  options={[...new Array(device.mode_count)].map((_, index) => ({
+                  defaultValue={mode_index}
+                  options={[...new Array(mode_count)].map((_, index) => ({
                     value: index,
                     label: `Mode #${index}`
                   }))}
-                  onChange={(option) => updateDeviceField(device.uid, 'mode_index', option.value)}
+                  onChange={(option) => updateDeviceField(uid, 'mode_index', option.value)}
                 />
-            </td>
-            <td style={{ minWidth: '6rem' }}>
+            </span>
+            <span className="body-cell address-cell">
                 <Input
                   type='number'
-                  defaultValue={device.address}
+                  defaultValue={address}
                   isTiny
                   spyValue={(value, prevValue) => {
                     // Only accepts integer numbers from 1 to 512
@@ -48,9 +56,9 @@ export const DeviceRow: FC<ListChildComponentProps> = memo(({ data, index, style
                     if (Number(value) < 1 || Number(value) > 512 || String(value).match(/[^\d]/)) return prevValue;
                     return value;
                   }}
-                  onBlur={(value) => updateDeviceField(device.uid, 'address', Number(value))}
+                  onBlur={(value) => updateDeviceField(uid, 'address', Number(value))}
                 />
-            </td>
-        </tr>
+            </span>
+        </div>
     );
 }, areEqual);

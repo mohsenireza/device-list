@@ -172,7 +172,8 @@ body {
 }
 
 #rdm_device_list {
-    overflow: auto;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 .rdm-list-header {
@@ -181,20 +182,23 @@ body {
 }
 
 .na-table {
+    display: inline-block;
     border-collapse: collapse;
+    height: 100%;
+    min-width: 100%;
 }
 
-.na-table tr {
+.na-table .na-table-row {
     display: flex;
     width: 100%;
     height: 1.7rem;
 }
 
-.na-table tr:nth-child(odd) {
+.na-table .na-table-row:nth-child(odd) {
     background-color: var(--odd_row);
 }
 
-.na-table tr:nth-child(even) {
+.na-table .na-table-row:nth-child(even) {
     background-color: var(--even_row);
 }
 
@@ -202,7 +206,7 @@ body {
     border-bottom: none;
 }
 
-.na-table th {
+.na-table .header-cell {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -215,7 +219,7 @@ body {
     flex: 1;
 }
 
-.na-table td {
+.na-table .body-cell {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -226,23 +230,28 @@ body {
     flex: 1;
 }
 
-.na-table-rightborder th {
+.na-table-rightborder .header-cell {
     border-right: solid 1px var(--lighter_bg);
 }
 
-.na-table-rightborder td {
+.na-table-rightborder .body-cell {
     border-right: solid 1px var(--dark_bg);
 }
 
-.na-table td:last-of-type {
+.na-table .body-cell:last-of-type {
     border-right: none;
 }
 
-.na-table th:last-of-type {
+.na-table .header-cell:last-of-type {
     border-right: none;
 }
 
-.na-table .rdm-list-status-cell::before {
+.status-cell {
+    min-width: 1rem;
+    max-width: 1rem;
+}
+
+.status-cell::before {
     content: '';
     display: block;
     position: absolute;
@@ -251,12 +260,40 @@ body {
     width: 0.3rem;
 }
 
-.na-table .rdm-list-status-cell.-online::before {
+.status-cell.-online::before {
     background-color: var(--green);
 }
 
-.na-table .rdm-list-status-cell.-offline::before {
+.status-cell.-offline::before {
     background-color: var(--red);
+}
+
+.uid-cell {
+    min-width: 8rem;
+}
+
+.label-cell {
+    min-width: 12rem;
+}
+
+.manufacturer-cell {
+    min-width: 8rem;
+}
+
+.model-cell {
+    min-width: 12rem;
+}
+
+.mode-cell {
+    min-width: 12rem;
+}
+
+.address-cell {
+    min-width: 6rem;
+}
+
+.auto-sizer-wrapper {
+    height: calc(100% - 1.7rem);
 }
 
 .na-button {

@@ -23,7 +23,7 @@ const createItemData = memoize((filteredDevices, updateDeviceField) => ({
 }));
 
 export const DeviceList = (): ReactElement => {
-    const [devices, setDevices] = useState([]);
+    const [devices, setDevices] = useState<RDM_Device[]>([]);
     const [filterBy, setFilterBy] = useState<'none' | 'Company NA' | 'TMB'>('none');
     const [sortBy, setSortBy] = useState<'none' | 'uid_integer' | 'address' | 'manufacturer'>('none');
     const server = useRef<Server>(null);
@@ -85,11 +85,12 @@ export const DeviceList = (): ReactElement => {
     const updateDeviceField = (uid: string, field: string, value: any) => {
         const device = devices.find(device => device.uid === uid);
 
-        if (device[field] !== value) {
+        if (device[field as keyof RDM_Device] !== value) {
             server.current.updateDeviceField(uid, field, value);
             console.log(`uid: ${uid} - ${field}: ${value}`);
             toast.success(`${field} has been updated to ${value}`, {
                 theme: "dark",
+                draggable: false
             });
         }
     }
@@ -129,19 +130,17 @@ export const DeviceList = (): ReactElement => {
             <ToastContainer />
             <span>RDM Device List ({filteredDevices.length}/{devices.length} | {filterBy} | {sortBy})</span>
             <div id="rdm_device_list">
-                <table className="na-table" style={{ width: '100%', height: '100%' }}>
-                    <thead>
-                        <tr className="rdm-list-header na-table-header">
-                            <th style={{ minWidth: '1rem', maxWidth: '1rem' }}></th>
-                            <th style={{ minWidth: '8rem' }}>UID</th>
-                            <th style={{ minWidth: '12rem' }}>LABEL</th>
-                            <th style={{ minWidth: '8rem' }}>MANUFACTURER</th>
-                            <th style={{ minWidth: '12rem' }}>MODEL</th>
-                            <th style={{ minWidth: '12rem' }}>MODE</th>
-                            <th style={{ minWidth: '6rem' }}>ADDRESS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <div className="na-table">
+                    <div className="rdm-list-header na-table-header na-table-row">
+                        <span className="header-cell status-cell" />
+                        <span className="header-cell uid-cell">UID</span>
+                        <span className="header-cell label-cell">LABEL</span>
+                        <span className="header-cell manufacturer-cell">MANUFACTURER</span>
+                        <span className="header-cell model-cell">MODEL</span>
+                        <span className="header-cell mode-cell">MODE</span>
+                        <span className="header-cell address-cell">ADDRESS</span>
+                    </div>
+                    <div className="auto-sizer-wrapper">
                         <AutoSizer>
                             {({ height, width }) => (
                                 <List
@@ -156,8 +155,8 @@ export const DeviceList = (): ReactElement => {
                                 </List>
                             )}
                         </AutoSizer>
-                    </tbody>
-                </table>
+                    </div>
+                </div>
             </div>
         </>
     )
