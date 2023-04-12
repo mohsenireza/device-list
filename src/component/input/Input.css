@@ -1,0 +1,32 @@
+.input {
+    text-align: center;
+    background-color: var(--input_background);
+    border: 1px solid var(--button_light_bg);
+    height: 1.35rem;
+    width: 100%;
+    box-shadow: 2px 0px 3px 0px var(--black);
+    transition: 0.2s;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--white);
+}
+
+.input.-isColorDark {
+    color: var(--text_dark);
+}
+
+.input.-isTiny {
+    width: 35%;
+}
+
+.input::-webkit-outer-spin-button,
+.input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.input[type=number] {
+    -moz-appearance: textfield;
+}

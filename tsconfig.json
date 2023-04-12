@@ -6,5 +6,9 @@
     "target": "es6",
     "allowJs": true,
     "moduleResolution": "node",
-  }
+    "jsx": "react-jsx"
+  },
+  "exclude": [
+    "./cypress.config.ts"
+  ]
 }

@@ -5,7 +5,7 @@ const CopyPlugin = require("copy-webpack-plugin")
 module.exports = (env, argv) => {
     var exp = {
         mode: "development",
-        entry: './src/main.ts',
+        entry: './src/main.tsx',
         module: {
             rules: [
                 {
@@ -13,6 +13,10 @@ module.exports = (env, argv) => {
                     use: "ts-loader",
                     exclude: /node_modules/,
                 },
+                {
+                    test: /\.css$/,
+                    use: ["style-loader", "css-loader"],
+                }
             ],
         },
         devServer: {
@@ -34,7 +38,7 @@ module.exports = (env, argv) => {
             extensions: ['.tsx', '.ts', '.js'],
         },
         entry: {
-            main: path.resolve(__dirname, "src/main.ts")
+            main: path.resolve(__dirname, "src/main.tsx")
         },
         output: {
             path: path.resolve(__dirname, 'Release'),
