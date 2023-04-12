@@ -332,6 +332,10 @@ body {
     color: #888;
 }
 
+.na-button-separator {
+    width: 1rem;
+}
+
 .Toastify__toast-body {
     white-space: pre-line;
 }

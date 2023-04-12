@@ -13,7 +13,6 @@ function main() {
     g_DeviceList = new DynamicList(document.getElementById("rdm_device_list"))
 
     // Render React component
-    const domNode = document.getElementById('list_frame');
-    const root = createRoot(domNode);
+    const root = createRoot(document.getElementById('root'));
     root.render(<DeviceList />);
 }
