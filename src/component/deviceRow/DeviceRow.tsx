@@ -21,7 +21,7 @@ export const DeviceRow: FC<ListChildComponentProps> = memo(({ data, index, style
     } = filteredDevices[index];
 
     return (
-        <div style={style} className="na-table-row">
+        <div style={style} className="na-table-row" data-testid="tableRow">
             <span
                 className={`body-cell status-cell ${is_online ? '-online' : '-offline'}`}
             />
