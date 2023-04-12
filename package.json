@@ -8,7 +8,8 @@
     "start": "webpack serve --open",
     "build": "webpack --mode development",
     "dist": "webpack --mode production",
-    "test:unit": "jest unit.test"
+    "test:unit": "jest unit.test",
+    "test:integration": "jest integration.test"
   },
   "keywords": [],
   "devDependencies": {
