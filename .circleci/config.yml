@@ -67,7 +67,7 @@ workflows:
       - build
       - unit_test
       - integration_test
-      - cypress/run # "run" job comes from "cypress" orb
+      - cypress/run: # "run" job comes from "cypress" orb
           start-command: 'npm run start'
       # For running simple node tests, you could optionally instead use the node/test job from the orb to replicate and replace the manually defined "test" job above in fewer lines.
       # - node/test
