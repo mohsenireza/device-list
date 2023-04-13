@@ -82,9 +82,27 @@ it('should update address', async () => {
 
     // Edit input value
     const input = screen.getByDisplayValue('1');
-    await user.type(input, '1');
+    await user.clear(input);
+    await user.type(input, '2');
     await user.click(document.body);
 
-    const toast = screen.getByText('address has been updated to 11');
+    const toast = screen.getByText('address has been updated to 2');
+    expect(toast).toBeInTheDocument();
+});
+
+it('should validate address value', async () => {
+    const { user } = render(<DeviceList />)
+
+    // Click on Add 1 button
+    const addButton = screen.getByRole('button', {name: 'Add 1'});
+    await user.click(addButton);
+
+    // Edit input value
+    const input = screen.getByDisplayValue('1');
+    await user.clear(input);
+    await user.type(input, '513');
+    await user.click(document.body);
+
+    const toast = screen.getByText('Please use integers from 1 to 512');
     expect(toast).toBeInTheDocument();
 });
