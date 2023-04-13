@@ -20,17 +20,6 @@ it('should run onBlur prop', async () => {
     expect(onBlur).toBeCalledTimes(1);
 });
 
-it('should run spyValue prop', async () => {
-    const spyValue = jest.fn();
-    const { user } = render(<Input spyValue={spyValue} />);
-
-    const input = screen.getByRole('textbox');
-    await user.type(input, 'a');
-
-    expect(spyValue).toBeCalledTimes(1);
-    expect(spyValue).toBeCalledWith('a', '');
-});
-
 it('should have -isTiny class if isTiny prop is provided', () => {
     render(<Input isTiny />);
 

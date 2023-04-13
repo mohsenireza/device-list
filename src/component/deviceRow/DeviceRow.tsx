@@ -3,6 +3,7 @@ import {
     ListChildComponentProps,
     areEqual
 } from 'react-window';
+import { toast } from 'react-toastify';
 
 import { Input } from '../input/Input';
 import { Select } from '../select/Select';
@@ -50,13 +51,19 @@ export const DeviceRow: FC<ListChildComponentProps> = memo(({ data, index, style
                   type='number'
                   defaultValue={address}
                   isTiny
-                  spyValue={(value, prevValue) => {
-                    // Only accepts integer numbers from 1 to 512
-                    if (value === '') return 1;
-                    if (Number(value) < 1 || Number(value) > 512 || String(value).match(/[^\d]/)) return prevValue;
-                    return value;
+                  onBlur={(value) => {
+                    const address = Number(value);
+
+                    if (address < 1 || address > 512 || !Number.isInteger(address)) {
+                      toast.error('Please use integers from 1 to 512', {
+                        theme: "dark",
+                        draggable: false
+                      });
+                      return;
+                    }
+
+                    updateDeviceField(uid, 'address', address);
                   }}
-                  onBlur={(value) => updateDeviceField(uid, 'address', Number(value))}
                 />
             </span>
         </div>

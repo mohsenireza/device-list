@@ -45,7 +45,14 @@ describe('device list', () => {
   it('should update address', () => {
     cy.visit('/');
     cy.contains(/add 1/i).click();
-    cy.get('input[value="1"]').type('1').blur();
-    cy.contains('address has been updated to 11');
+    cy.get('input[value="1"]').clear().type('2').blur();
+    cy.contains('address has been updated to 2');
+  })
+
+  it('should validate address value', () => {
+    cy.visit('/');
+    cy.contains(/add 1/i).click();
+    cy.get('input[value="1"]').clear().type('513').blur();
+    cy.contains('Please use integers from 1 to 512');
   })
 })

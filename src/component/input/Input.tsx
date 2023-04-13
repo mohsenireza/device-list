@@ -14,7 +14,6 @@ type InputProps = {
     defaultValue?: string | number;
     isColorDark?: boolean;
     isTiny?: boolean;
-    spyValue?: (value?: InputValue, prevValue?: InputValue) => InputValue;
     onBlur?: (value: InputValue) => void
 }
 
@@ -23,7 +22,6 @@ export const Input = ({
     defaultValue = '',
     isColorDark,
     isTiny,
-    spyValue = (value) => value,
     onBlur = () => {}
 }: InputProps) => {
     const [value, setValue] = useState<InputValue>(defaultValue);
@@ -34,11 +32,7 @@ export const Input = ({
     }, [defaultValue])
 
     const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-        const newValue = spyValue(e.target.value, value);
-
-        if(newValue === value) return;
-
-        setValue(newValue);
+        setValue(e.target.value);
     }
 
     const handleBlur: FocusEventHandler<HTMLInputElement> = () => {

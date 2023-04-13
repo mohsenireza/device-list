@@ -10,8 +10,7 @@
     "dist": "webpack --mode production",
     "test:unit": "jest unit.test",
     "test:integration": "jest integration.test",
-    "cypress:open": "cypress open",
-    "cypress:run": "cypress run"
+    "test:e2e": "cypress open"
   },
   "keywords": [],
   "devDependencies": {
