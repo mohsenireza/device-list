@@ -1,4 +1,4 @@
-import {render, screen} from '../util/util';
+import { render, screen } from '../util/util';
 import { Input } from '../../component/input/Input';
 
 it('should render the component', () => {
@@ -47,7 +47,7 @@ it('should have default value', () => {
 
 it('should update value if defaultValue changes', () => {
     const defaultValue = 'defaultValue';
-    const {rerender} = render(<Input defaultValue={defaultValue} />);
+    const { rerender } = render(<Input defaultValue={defaultValue} />);
 
     const newDefaultValue = 'newDefaultValue';
     rerender(<Input defaultValue={newDefaultValue} />)

@@ -15,7 +15,7 @@ type SelectProps = {
 export const Select = ({
     defaultValue = '',
     options = [],
-    onChange = () => {}
+    onChange = () => { }
 }: SelectProps): ReactElement => {
     const [value, setValue] = useState(defaultValue);
 
@@ -91,12 +91,12 @@ export const Select = ({
 
     return (
         <ReactSelect
-          value={options.filter(option => option.value === value)}
-          onChange={handleChange}
-          options={options}
-          styles={styles}
-          isSearchable={false}
-          menuShouldScrollIntoView={false}
+            value={options.filter(option => option.value === value)}
+            onChange={handleChange}
+            options={options}
+            styles={styles}
+            isSearchable={false}
+            menuShouldScrollIntoView={false}
         />
     )
 }

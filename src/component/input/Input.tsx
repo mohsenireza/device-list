@@ -22,7 +22,7 @@ export const Input = ({
     defaultValue = '',
     isColorDark,
     isTiny,
-    onBlur = () => {}
+    onBlur = () => { }
 }: InputProps) => {
     const [value, setValue] = useState<InputValue>(defaultValue);
 
@@ -41,11 +41,11 @@ export const Input = ({
 
     return (
         <input
-          type={type}
-          className={`input ${isColorDark ? '-isColorDark' : ''} ${isTiny ? '-isTiny' : ''}`}
-          value={value}
-          onChange={handleChange}
-          onBlur={handleBlur}
+            type={type}
+            className={`input ${isColorDark ? '-isColorDark' : ''} ${isTiny ? '-isTiny' : ''}`}
+            value={value}
+            onChange={handleChange}
+            onBlur={handleBlur}
         />
     )
 }
