@@ -32,18 +32,21 @@ export const Select = ({
     const styles: StylesConfig = {
         container: (baseStyles) => ({
             ...baseStyles,
-            height: '1.65rem',
+            height: '1.55rem',
             width: '100%'
         }),
-        control: (baseStyles) => ({
+        control: (baseStyles, state) => ({
             ...baseStyles,
             height: '100%',
             minHeight: 'unset',
             backgroundColor: 'var(--input_background)',
-            borderColor: 'var(--button_light_bg)',
+            borderColor: state.isFocused ? 'var(--white)' : 'var(--button_light_bg)',
             borderRadius: 0,
             boxShadow: '2px 0px 3px 0px var(--black)',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            ':hover': {
+                borderColor: state.isFocused ? 'var(--white)' : 'var(--button_light_bg)'
+            }
         }),
         valueContainer: (baseStyles) => ({
             ...baseStyles,
