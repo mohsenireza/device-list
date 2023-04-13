@@ -17,7 +17,7 @@ it('should show the data', () => {
         }
     ];
     const updateDeviceField = jest.fn();
-    const data = {filteredDevices, updateDeviceField};
+    const data = { filteredDevices, updateDeviceField };
     const index = 0;
     const style = {};
     render(<DeviceRow data={data} index={index} style={style} />);
@@ -52,7 +52,7 @@ it('should contain .mode_count number of options in the mode select input', asyn
         }
     ];
     const updateDeviceField = jest.fn();
-    const data = {filteredDevices, updateDeviceField};
+    const data = { filteredDevices, updateDeviceField };
     const index = 0;
     const style = {};
     const { user } = render(<DeviceRow data={data} index={index} style={style} />);
@@ -83,7 +83,7 @@ it('status cell should have -online class', () => {
         }
     ];
     const updateDeviceField = jest.fn();
-    const data = {filteredDevices, updateDeviceField};
+    const data = { filteredDevices, updateDeviceField };
     const index = 0;
     const style = {};
     render(<DeviceRow data={data} index={index} style={style} />);
@@ -108,7 +108,7 @@ it('status cell should have -offline class', () => {
         }
     ];
     const updateDeviceField = jest.fn();
-    const data = {filteredDevices, updateDeviceField};
+    const data = { filteredDevices, updateDeviceField };
     const index = 0;
     const style = {};
     render(<DeviceRow data={data} index={index} style={style} />);
@@ -133,7 +133,7 @@ it('should update label', async () => {
         }
     ];
     const updateDeviceField = jest.fn();
-    const data = {filteredDevices, updateDeviceField};
+    const data = { filteredDevices, updateDeviceField };
     const index = 0;
     const style = {};
     const { user } = render(<DeviceRow data={data} index={index} style={style} />);
@@ -164,7 +164,7 @@ it('should update mode', async () => {
         }
     ];
     const updateDeviceField = jest.fn();
-    const data = {filteredDevices, updateDeviceField};
+    const data = { filteredDevices, updateDeviceField };
     const index = 0;
     const style = {};
     const { user } = render(<DeviceRow data={data} index={index} style={style} />);
@@ -194,7 +194,7 @@ it('should update address', async () => {
         }
     ];
     const updateDeviceField = jest.fn();
-    const data = {filteredDevices, updateDeviceField};
+    const data = { filteredDevices, updateDeviceField };
     const index = 0;
     const style = {};
     const { user } = render(<DeviceRow data={data} index={index} style={style} />);

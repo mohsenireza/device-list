@@ -5,7 +5,7 @@ it('add 1 button should work', async () => {
     const { user } = render(<DeviceList />)
 
     // Click on Add 1 button
-    const addButton = screen.getByRole('button', {name: 'Add 1'});
+    const addButton = screen.getByRole('button', { name: 'Add 1' });
     await user.click(addButton);
 
     // Check the new data
@@ -17,7 +17,7 @@ it('add 10 button should work', async () => {
     const { user } = render(<DeviceList />)
 
     // Click on Add 10 button
-    const addButton = screen.getByRole('button', {name: 'Add 10'});
+    const addButton = screen.getByRole('button', { name: 'Add 10' });
     await user.click(addButton);
 
     // Check the new data
@@ -29,7 +29,7 @@ it('add 100 button should work', async () => {
     const { user } = render(<DeviceList />)
 
     // Click on Add 100 button
-    const addButton = screen.getByRole('button', {name: 'Add 100'});
+    const addButton = screen.getByRole('button', { name: 'Add 100' });
     await user.click(addButton);
 
     // Check the new data
@@ -41,7 +41,7 @@ it('should update label', async () => {
     const { user } = render(<DeviceList />)
 
     // Click on Add 1 button
-    const addButton = screen.getByRole('button', {name: 'Add 1'});
+    const addButton = screen.getByRole('button', { name: 'Add 1' });
     await user.click(addButton);
 
     // Edit input value
@@ -58,7 +58,7 @@ it('should update mode', async () => {
     const { user } = render(<DeviceList />)
 
     // Click on Add 1 button
-    const addButton = screen.getByRole('button', {name: 'Add 1'});
+    const addButton = screen.getByRole('button', { name: 'Add 1' });
     await user.click(addButton);
 
     // Open the select menu by clicking on it
@@ -77,7 +77,7 @@ it('should update address', async () => {
     const { user } = render(<DeviceList />)
 
     // Click on Add 1 button
-    const addButton = screen.getByRole('button', {name: 'Add 1'});
+    const addButton = screen.getByRole('button', { name: 'Add 1' });
     await user.click(addButton);
 
     // Edit input value
@@ -94,7 +94,7 @@ it('should validate address value', async () => {
     const { user } = render(<DeviceList />)
 
     // Click on Add 1 button
-    const addButton = screen.getByRole('button', {name: 'Add 1'});
+    const addButton = screen.getByRole('button', { name: 'Add 1' });
     await user.click(addButton);
 
     // Edit input value

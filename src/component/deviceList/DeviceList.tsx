@@ -30,7 +30,7 @@ export const DeviceList = (): ReactElement => {
     // Disable horizontal scroll of react-window outer element
     const outerRef = useCallback((node: HTMLElement) => {
         if (node !== null) {
-          node.style.overflowX = 'hidden';
+            node.style.overflowX = 'hidden';
         }
     }, []);
 
@@ -134,11 +134,11 @@ export const DeviceList = (): ReactElement => {
                     <button id="add_10" className="na-button na-button-red">Add 10</button>
                     <button id="add_100" className="na-button na-button-red">Add 100</button>
                     <button id="add_1000" className="na-button na-button-red">Add 1000</button>
-                    <div className="na-button-separator"/>
+                    <div className="na-button-separator" />
                     <button id="all_online" className="na-button">All Online</button>
                     <button id="all_offline" className="na-button">All Offline</button>
                     <button id="random_online" className="na-button">Random Online/Offline</button>
-                    <div className="na-button-separator"/>
+                    <div className="na-button-separator" />
                     <button id="filter_none" className="na-button na-button-green">Filter: None</button>
                     <button id="filter_na" className="na-button na-button-green">Filter: NA</button>
                     <button id="filter_tmb" className="na-button na-button-green">Filter: TMB</button>
@@ -149,7 +149,7 @@ export const DeviceList = (): ReactElement => {
                     <button id="first_100_update" className="na-button">Update First 100</button>
                     <button id="random_update_50" className="na-button">Update Random 50%</button>
                     <button id="random_update_2" className="na-button">Update Random 2%</button>
-                    <div className="na-button-separator"/>
+                    <div className="na-button-separator" />
                     <button id="sort_uid" className="na-button na-button-green">Sort By UID</button>
                     <button id="sort_address" className="na-button na-button-green">Sort By Address</button>
                     <button id="sort_manufacturer" className="na-button na-button-green">Sort By Manufacturer</button>
@@ -172,12 +172,12 @@ export const DeviceList = (): ReactElement => {
                             <AutoSizer>
                                 {({ height, width }) => (
                                     <List
-                                    height={height || 100}
-                                    itemCount={filteredDevices.length}
-                                    itemData={itemData}
-                                    itemSize={27}
-                                    width={width || 100}
-                                    outerRef={outerRef}
+                                        height={height || 100}
+                                        itemCount={filteredDevices.length}
+                                        itemData={itemData}
+                                        itemSize={27}
+                                        width={width || 100}
+                                        outerRef={outerRef}
                                     >
                                         {DeviceRow}
                                     </List>

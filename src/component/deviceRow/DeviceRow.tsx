@@ -29,41 +29,41 @@ export const DeviceRow: FC<ListChildComponentProps> = memo(({ data, index, style
             <span className="body-cell uid-cell">{uid}</span>
             <span className="body-cell label-cell">
                 <Input
-                  defaultValue={label}
-                  isColorDark
-                  onBlur={(value) => updateDeviceField(uid, 'label', value)}
+                    defaultValue={label}
+                    isColorDark
+                    onBlur={(value) => updateDeviceField(uid, 'label', value)}
                 />
             </span>
             <span className="body-cell manufacturer-cell">{manufacturer}</span>
             <span className="body-cell model-cell">{model}</span>
             <span className="body-cell mode-cell">
                 <Select
-                  defaultValue={mode_index}
-                  options={[...new Array(mode_count)].map((_, index) => ({
-                    value: index,
-                    label: `Mode #${index}`
-                  }))}
-                  onChange={(option) => updateDeviceField(uid, 'mode_index', option.value)}
+                    defaultValue={mode_index}
+                    options={[...new Array(mode_count)].map((_, index) => ({
+                        value: index,
+                        label: `Mode #${index}`
+                    }))}
+                    onChange={(option) => updateDeviceField(uid, 'mode_index', option.value)}
                 />
             </span>
             <span className="body-cell address-cell">
                 <Input
-                  type='number'
-                  defaultValue={address}
-                  isTiny
-                  onBlur={(value) => {
-                    const address = Number(value);
+                    type='number'
+                    defaultValue={address}
+                    isTiny
+                    onBlur={(value) => {
+                        const address = Number(value);
 
-                    if (address < 1 || address > 512 || !Number.isInteger(address)) {
-                      toast.error('Please use integers from 1 to 512', {
-                        theme: "dark",
-                        draggable: false
-                      });
-                      return;
-                    }
+                        if (address < 1 || address > 512 || !Number.isInteger(address)) {
+                            toast.error('Please use integers from 1 to 512', {
+                                theme: "dark",
+                                draggable: false
+                            });
+                            return;
+                        }
 
-                    updateDeviceField(uid, 'address', address);
-                  }}
+                        updateDeviceField(uid, 'address', address);
+                    }}
                 />
             </span>
         </div>

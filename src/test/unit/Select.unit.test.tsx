@@ -1,4 +1,4 @@
-import {render, screen} from '../util/util';
+import { render, screen } from '../util/util';
 import { Select } from '../../component/select/Select';
 
 it('should render the component', () => {
@@ -31,7 +31,7 @@ it('should run onChange prop', async () => {
     ]
     const onChange = jest.fn();
     const optionToSelect = options[1];
-    const {user} = render(<Select options={options} onChange={onChange} />);
+    const { user } = render(<Select options={options} onChange={onChange} />);
 
     // Open the select menu by clicking on it
     const select = screen.getByRole('combobox');
@@ -52,7 +52,7 @@ it('should change value', async () => {
         { label: '3', value: '3' }
     ]
     const optionToSelect = options[1];
-    const {user} = render(<Select options={options} />);
+    const { user } = render(<Select options={options} />);
 
     // Open the select menu by clicking on it
     const select = screen.getByRole('combobox');
