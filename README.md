@@ -7,13 +7,13 @@ Check out the published web app from [here](https://device-list.netlify.app/).
 ### `npm start`
 Runs the app in the development mode.
 
-### `npm test:unit`
+### `npm run test:unit`
 Runs unit tests.
 
-### `npm test:integration`
+### `npm run test:integration`
 Runs integration tests.
 
-### `npm test:e2e`
+### `npm run test:e2e`
 Runs end to end tests.
 
 <br/>
